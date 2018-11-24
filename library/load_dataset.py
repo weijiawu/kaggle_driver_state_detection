@@ -5,7 +5,7 @@ import os
 import csv
 import tensorflow as tf
 
-def load(image_dir,list_path):
+def load_list(image_dir,list_path):
     image_names = []
     image_labels = []
 
@@ -15,10 +15,11 @@ def load(image_dir,list_path):
             classname = row['classname']
             image_labels.append(int(classname[-1]))
             image_names.append(os.path.join(image_dir,classname,row['img']))
-            print(os.path.join(image_dir,classname,row['img']))
+           # print(os.path.join(image_dir,classname,row['img']))
+    return image_names,image_labels
 
 
-def read(names, labels, batch_size=None, num_epoch=None, shuffle=False, phase='train'):
+def read_data(names, labels, batch_size=None, num_epoch=None, shuffle=False, phase='train'):
     def _read_img(name):
         # TODO
         # 给定图像名称tensor, 输出3维浮点值图像
@@ -34,7 +35,14 @@ def read(names, labels, batch_size=None, num_epoch=None, shuffle=False, phase='t
         # 对训练集图像预处理
         # 例如resize到固定大小,翻转,调整对比度等等
         img_resized = tf.image.resize_images(img, (256, 256))
-        img_normed = tf.image.per_image_standardization(img_resized)
+        
+        im = tf.image.random_flip_left_right(img_resized)
+        im = tf.random_crop(im, [150, 150, 3])
+        im = tf.image.random_brightness(im, max_delta=0.5)
+        im = tf.image.random_contrast(im, lower=0.0, upper=0.5)
+        im = tf.image.random_hue(im, max_delta=0.5)
+        
+        img_normed = tf.image.per_image_standardization(im)
 
         return img_normed
 

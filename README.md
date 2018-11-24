@@ -8,6 +8,8 @@
 
 ## Test
 
+ &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;u can use Driver_detection to run the code simply and use gram-cam to see the 
+learned  feature 
 
 ## Train
  &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; firstly, downlad the dataset from the [competition](https://www.kaggle.com/c/state-farm-distracted-driver-detection/overview), and use the `load_dataset.py` to load the dataset 
